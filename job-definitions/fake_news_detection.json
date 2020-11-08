@@ -1,0 +1,173 @@
+{
+    "Job": {
+        "Stop": null,
+        "Region": null,
+        "Namespace": null,
+        "ID": "fake_news_detector",
+        "ParentID": null,
+        "Name": "fake_news_detector",
+        "Type": "service",
+        "Priority": null,
+        "AllAtOnce": null,
+        "Datacenters": [
+            "nunet-io"
+        ],
+        "Constraints": null,
+        "Affinities": null,
+        "TaskGroups": [
+            {
+                "Name": "fake_news_detector",
+                "Count": 1,
+                "Constraints": null,
+                "Affinities": null,
+                "Tasks": [
+                    {
+                        "Name": "fake_news_score",
+                        "Driver": "docker",
+                        "User": "",
+                        "Lifecycle": null,
+                        "Config": {
+                            "image": "registry.gitlab.com/nunet/fake-news-detection/fake_news_score/fake_news_score_module",
+                            "ports": [
+                                "TALOS_GRPC_ADD",
+                                "UCL_GRPC_ADD"
+                            ]
+                        },
+                        "Constraints": null,
+                        "Affinities": null,
+                        "Env": null,
+                        "Services": null,
+                        "Resources": {
+                            "CPU": 200,
+                            "MemoryMB": 256,
+                            "DiskMB": null,
+                            "Networks": null,
+                            "Devices": null,
+                            "IOPS": null
+                        },
+                        "RestartPolicy": null,
+                        "Meta": null,
+                        "KillTimeout": null,
+                        "LogConfig": {
+                            "MaxFiles": 10,
+                            "MaxFileSizeMB": 15
+                        },
+                        "Artifacts": null,
+                        "Vault": null,
+                        "Templates": null,
+                        "DispatchPayload": null,
+                        "VolumeMounts": null,
+                        "Leader": false,
+                        "ShutdownDelay": 0,
+                        "KillSignal": "",
+                        "Kind": ""
+                    },
+                    {
+                        "Name": "uclnlp",
+                        "Driver": "docker",
+                        "User": "",
+                        "Lifecycle": null,
+                        "Config": {
+                            "image": "registry.gitlab.com/nunet/fake-news-detection/uclnlp/uclnlp_module:latest",
+                            "ports": [
+                                "UCL_GRPC_ADD"
+                            ]
+                        },
+                        "Constraints": null,
+                        "Affinities": null,
+                        "Env": null,
+                        "Services": null,
+                        "Resources": {
+                            "CPU": 500,
+                            "MemoryMB": 500,
+                            "DiskMB": null,
+                            "Networks": null,
+                            "Devices": null,
+                            "IOPS": null
+                        },
+                        "RestartPolicy": null,
+                        "Meta": null,
+                        "KillTimeout": null,
+                        "LogConfig": {
+                            "MaxFiles": 10,
+                            "MaxFileSizeMB": 15
+                        },
+                        "Artifacts": null,
+                        "Vault": null,
+                        "Templates": null,
+                        "DispatchPayload": null,
+                        "VolumeMounts": null,
+                        "Leader": false,
+                        "ShutdownDelay": 0,
+                        "KillSignal": "",
+                        "Kind": ""
+                    }
+                ],
+                "Spreads": null,
+                "Volumes": null,
+                "RestartPolicy": {
+                    "Interval": 1800000000000,
+                    "Attempts": 2,
+                    "Delay": 15000000000,
+                    "Mode": "fail"
+                },
+                "ReschedulePolicy": null,
+                "EphemeralDisk": null,
+                "Update": null,
+                "Migrate": null,
+                "Networks": [
+                    {
+                        "Mode": "",
+                        "Device": "",
+                        "CIDR": "",
+                        "IP": "",
+                        "MBits": null,
+                        "DNS": null,
+                        "ReservedPorts": null,
+                        "DynamicPorts": [
+                            {
+                                "Label": "TALOS_GRPC_ADD",
+                                "Value": 0,
+                                "To": 0,
+                                "HostNetwork": ""
+                            },
+                            {
+                                "Label": "UCL_GRPC_ADD",
+                                "Value": 0,
+                                "To": 0,
+                                "HostNetwork": ""
+                            }
+                        ]
+                    }
+                ],
+                "Meta": null,
+                "Services": null,
+                "ShutdownDelay": null,
+                "StopAfterClientDisconnect": null,
+                "Scaling": null
+            }
+        ],
+        "Update": null,
+        "Multiregion": null,
+        "Spreads": null,
+        "Periodic": null,
+        "ParameterizedJob": null,
+        "Dispatched": false,
+        "Payload": null,
+        "Reschedule": null,
+        "Migrate": null,
+        "Meta": null,
+        "ConsulToken": null,
+        "VaultToken": null,
+        "VaultNamespace": null,
+        "NomadTokenID": null,
+        "Status": null,
+        "StatusDescription": null,
+        "Stable": null,
+        "Version": null,
+        "SubmitTime": null,
+        "CreateIndex": null,
+        "ModifyIndex": null,
+        "JobModifyIndex": null
+    }
+}

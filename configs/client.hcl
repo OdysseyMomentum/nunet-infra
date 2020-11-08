@@ -11,6 +11,9 @@ client {
   gc_max_allocs = 100
   gc_disk_usage_threshold = 85
   servers = ["127.0.0.1:4647"]
+  options {
+    "docker.cleanup.image" = false
+  }
 }
 
 ports {
