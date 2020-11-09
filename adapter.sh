@@ -29,6 +29,7 @@ start() {
 		sudo systemctl start nomad_server.service
 
 		;;
+
 	'client')
 		echo "Starting client"
 		if [ ! -d /etc/nunet-adapter/client ]; then
@@ -48,7 +49,23 @@ start() {
 		sudo systemctl start nomad_client.service
 
 		;;
-	esac
+
+	'dev')
+		echo "Starting dev"
+		DEV_DIR="/etc/nunet-adapter/dev"
+		if [ ! -d $DEV_DIR ]; then
+		  sudo mkdir -p $DEV_DIR
+		fi
+		
+		sudo cp ./configs/dev.hcl $DEV_DIR/
+		sudo cp ./configs/nomad_dev.service /etc/systemd/system/
+
+
+		sudo systemctl enable nomad_dev.service
+		sudo systemctl start nomad_dev.service
+
+		;;
+	esac	
 }
 
 stop() {
@@ -60,8 +77,11 @@ stop() {
 		'client')	
 			echo "Stopping Nomad Client"
 			sudo systemctl stop nomad_client.service			
-
 			;;
+		'dev')	
+			echo "Stopping Nomad Client"
+			sudo systemctl stop nomad_dev.service			
+			;;			
 	esac
 }
 
