@@ -3,9 +3,9 @@
         "Stop": null,
         "Region": null,
         "Namespace": null,
-        "ID": "fake_news_detector",
+        "ID": "fake_news_detection",
         "ParentID": null,
-        "Name": "fake_news_detector",
+        "Name": "fake_news_detection",
         "Type": "service",
         "Priority": null,
         "AllAtOnce": null,
@@ -16,7 +16,7 @@
         "Affinities": null,
         "TaskGroups": [
             {
-                "Name": "fake_news_detector",
+                "Name": "fake_news_detection",
                 "Count": 1,
                 "Constraints": null,
                 "Affinities": null,
@@ -27,11 +27,11 @@
                         "User": "",
                         "Lifecycle": null,
                         "Config": {
-                            "image": "registry.gitlab.com/nunet/fake-news-detection/fake_news_score/fake_news_score_module",
-                            "ports": [
-                                "TALOS_GRPC_ADD",
-                                "UCL_GRPC_ADD"
-                            ]
+                            "args": [
+                                "fake_news_score.py"
+                            ],
+                            "command": "python3",
+                            "image": "registry.gitlab.com/nunet/fake-news-detection/fake_news_score/fake_news_score_module:latest"
                         },
                         "Constraints": null,
                         "Affinities": null,
@@ -68,9 +68,15 @@
                         "User": "",
                         "Lifecycle": null,
                         "Config": {
+                            "args": [
+                                "/root/uclnlp/pred.py",
+                                "serve",
+                                "grpc"
+                            ],
+                            "command": "python3.5",
                             "image": "registry.gitlab.com/nunet/fake-news-detection/uclnlp/uclnlp_module:latest",
                             "ports": [
-                                "UCL_GRPC_ADD"
+                                "UCL_GRPC_PORT"
                             ]
                         },
                         "Constraints": null,
@@ -78,8 +84,8 @@
                         "Env": null,
                         "Services": null,
                         "Resources": {
-                            "CPU": 500,
-                            "MemoryMB": 500,
+                            "CPU": 5000,
+                            "MemoryMB": 7000,
                             "DiskMB": null,
                             "Networks": null,
                             "Devices": null,
@@ -105,12 +111,7 @@
                 ],
                 "Spreads": null,
                 "Volumes": null,
-                "RestartPolicy": {
-                    "Interval": 1800000000000,
-                    "Attempts": 2,
-                    "Delay": 15000000000,
-                    "Mode": "fail"
-                },
+                "RestartPolicy": null,
                 "ReschedulePolicy": null,
                 "EphemeralDisk": null,
                 "Update": null,
@@ -126,13 +127,13 @@
                         "ReservedPorts": null,
                         "DynamicPorts": [
                             {
-                                "Label": "TALOS_GRPC_ADD",
+                                "Label": "TALOS_GRPC_PORT",
                                 "Value": 0,
                                 "To": 0,
                                 "HostNetwork": ""
                             },
                             {
-                                "Label": "UCL_GRPC_ADD",
+                                "Label": "UCL_GRPC_PORT",
                                 "Value": 0,
                                 "To": 0,
                                 "HostNetwork": ""
