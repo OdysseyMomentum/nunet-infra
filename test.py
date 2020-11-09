@@ -1,6 +1,7 @@
 import nomad
 import logging
 import json
+import time
 
 loggers = {}
 NOMAD_HOST = "localhost"
@@ -31,9 +32,10 @@ file = open("./job-definitions/fake_news_detection.json")
 job_definition = json.load(file)
 
 #spinning the fake_news_detector workflow
-register = n.job.register_job("fake_news_detector", job_definition)
+register = n.job.register_job("fake_news_detection", job_definition)
 logger.debug("Registered job %s" % register)
-deployment = n.job.get_deployment("fake_news_detector")
+time.sleep(1)
+deployment = n.job.get_deployment("fake_news_detection")
 logger.debug("Deployments: %s" % deployment)
 
 # getting the result
