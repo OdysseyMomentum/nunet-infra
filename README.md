@@ -1,6 +1,6 @@
 # nunet-infra prototype
 
-This is based on nomad. Should work as follows:
+This is based on nomad + docker. I assume docker system is pre-installed correctly. The rest should work as follows:
 
 ## step 1
 
