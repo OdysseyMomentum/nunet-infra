@@ -51,12 +51,15 @@ start() {
 		;;
 
 	'dev')
-		echo "Starting dev"
+		echo "Starting Dev"
 		DEV_DIR="/etc/nunet-adapter/dev"
 		if [ ! -d $DEV_DIR ]; then
 		  sudo mkdir -p $DEV_DIR
 		fi
 		
+		stop server
+		stop client
+
 		sudo cp ./configs/dev.hcl $DEV_DIR/
 		sudo cp ./configs/nomad_dev.service /etc/systemd/system/
 
@@ -79,7 +82,7 @@ stop() {
 			sudo systemctl stop nomad_client.service			
 			;;
 		'dev')	
-			echo "Stopping Nomad Client"
+			echo "Stopping Nomad Dev"
 			sudo systemctl stop nomad_dev.service			
 			;;			
 	esac
@@ -95,7 +98,30 @@ restart() {
 		'client')	
 			echo "Restarting Nomad Client"
 			sudo systemctl restart nomad_client.service			
+			;;
+		'dev')	
+			echo "Restarting Nomad Dev"
+			sudo systemctl restart nomad_dev.service			
+			;;
+	esac
+}	
 
+uninstall() {
+	case $COM2 in
+		'server')
+			echo "Uninstalling Nomad Server"
+			stop server
+			sudo systemctl disable nomad_server.service			
+			;;
+		'client')	
+			echo "Uninstalling Nomad Client"
+			stop client
+			sudo systemctl disable nomad_client.service			
+			;;
+		'dev')	
+			echo "Uninstalling Nomad Dev"
+			stop dev
+			sudo systemctl disable nomad_dev.service			
 			;;
 	esac
 }	
@@ -103,6 +129,7 @@ restart() {
 status() {
 	systemctl status nomad_server.service --no-pager		
 	systemctl status nomad_client.service	--no-pager
+	systemctl status nomad_dev.service	--no-pager
 	}	
 
 
@@ -123,6 +150,9 @@ case $COM1 in
 	'install')
 		install
 		;;
+	'uninstall')
+		uninstall
+		;;	
 esac
 
 
