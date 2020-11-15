@@ -50,6 +50,26 @@ start() {
 
 		;;
 
+	'office-client')
+		echo "Starting client"
+		if [ ! -d /etc/nunet-adapter/client ]; then
+		  sudo mkdir -p /etc/nunet-adapter/client
+		fi
+
+		CLIENT_DIR="/etc/nunet-adapter/client"
+		if [ ! -d $CLIENT_DIR ]; then
+		  sudo mkdir -p $CLIENT_DIR
+		fi
+
+		sudo cp ./configs/office-desktop.hcl $CLIENT_DIR/
+		sudo cp ./configs/nomad_client_office.service /etc/systemd/system/
+
+
+		sudo systemctl enable nomad_client_office.service
+		sudo systemctl start nomad_client_office.service
+
+		;;
+
 	'dev')
 		echo "Starting Dev"
 		DEV_DIR="/etc/nunet-adapter/dev"
@@ -81,6 +101,10 @@ stop() {
 			echo "Stopping Nomad Client"
 			sudo systemctl stop nomad_client.service			
 			;;
+		'office-client')
+			echo "Stopping Nomad Office Client"
+			sudo systemctl stop nomad_client_office.service
+			;;
 		'dev')	
 			echo "Stopping Nomad Dev"
 			sudo systemctl stop nomad_dev.service			
@@ -98,6 +122,10 @@ restart() {
 		'client')	
 			echo "Restarting Nomad Client"
 			sudo systemctl restart nomad_client.service			
+			;;
+		'office-client')
+			echo "Restarting Nomad Office Client"
+			sudo systemctl restart nomad_client_office.service
 			;;
 		'dev')	
 			echo "Restarting Nomad Dev"
@@ -118,6 +146,10 @@ uninstall() {
 			stop client
 			sudo systemctl disable nomad_client.service			
 			;;
+		'office-client')
+			echo "Uninstalling Nomad Office Client"
+			sudo systemctl disable nomad_client_office.service
+			;;
 		'dev')	
 			echo "Uninstalling Nomad Dev"
 			stop dev
@@ -129,6 +161,7 @@ uninstall() {
 status() {
 	systemctl status nomad_server.service --no-pager		
 	systemctl status nomad_client.service	--no-pager
+	systemctl status nomad_client_office.service --no-pager
 	systemctl status nomad_dev.service	--no-pager
 	}	
 
